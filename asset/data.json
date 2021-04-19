@@ -1,0 +1,93 @@
+[
+    {
+        "categoryName": "Vegetables",
+        "description": "Vegetables are one of the most important parts of a healthy diet.",
+        "color": "yellow",
+        "products": [
+            {
+                "ProductId": "1",
+                "product_name": "Okro",
+                "price": "300",
+                "image_url": "asset/images/okro.jpg",
+                "description": "Okro are one of the most important parts of a healthy diet."
+            },
+            {
+                "ProductId": "2",
+                "product_name": "Tomatoes",
+                "price": "120",
+                "image_url": "asset/images/tomato.jpg",
+                "description": "Tomatoes are one of the most important parts of a healthy diet."
+            }
+        ]
+    },
+    {
+        "categoryName": "Fresh Fruit",
+        "description": "Fresh Fruit are one of the most important parts of a healthy diet.",
+        "color": "green",
+        "products": [
+            {
+                "ProductId": "3",
+                "product_name": "Apples",
+                "price": "200",
+                "image_url": "asset/images/apples.jpg",
+                "description": "Fresh Fruit are one of the most important parts of a healthy diet."
+            },
+            {
+                "ProductId": "4",
+                "product_name": "Oranges",
+                "price": "130",
+                "image_url": "asset/images/Oranges.jpg",
+                "description": "Oranges are one of the most important parts of a healthy diet."
+            },
+            {
+                "ProductId": "5",
+                "product_name": "Strawberry",
+                "price": "100",
+                "image_url": "asset/images/strawberry.jpg",
+                "description": "Strawberry is one of the most important parts of a healthy diet."
+            },
+            {
+                "ProductId": "6",
+                "product_name": "Cucumber",
+                "price": "120",
+                "image_url": "asset/images/cucumbers.jpg",
+                "description": "Cucumber are one of the most important parts of a healthy diet."
+            }
+        ]
+    },
+    {
+        "categoryName": "Meat and Poultry",
+        "description": "Meat and Poultry are one of the most important parts of a healthy diet.",
+        "color": "yellow",
+        "products": [
+            {
+                "ProductId": "7",
+                "product_name": "Eggs",
+                "price": "900",
+                "image_url": "asset/images/eggs.jpg",
+                "description": "Eggs are one of the most important parts of a healthy diet."
+            }
+        ]
+    },
+    {
+        "categoryName": "Cooking Produce",
+        "description": "Meat and Poultry are one of the most important parts of a healthy diet.",
+        "color": "green",
+        "products": [
+            {
+                "ProductId": "8",
+                "product_name": "Basmatic Rice",
+                "price": "400",
+                "image_url": "asset/images/basmati.jpg",
+                "description": "Basmatic are one of the most important parts of a healthy diet."
+            },
+            {
+                "ProductId": "9",
+                "product_name": "Green Pepper",
+                "price": "130",
+                "image_url": "asset/images/greenpepper.jpg",
+                "description": "Green Pepper are one of the most important parts of a healthy diet."
+            }
+        ]
+    }
+]

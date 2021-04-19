@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "988636805920",
+    "project_id": "nutloop-ef491",
+    "storage_bucket": "nutloop-ef491.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988636805920:android:0923fceb6769ececca3545",
+        "android_client_info": {
+          "package_name": "com.example.nutloop_ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "988636805920-7b9s2fan21umfsk2pjv6fjifes6fkc33.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nutloop_ecommerce",
+            "certificate_hash": "fd6db6db68f6aeb411ce272c42d11d4844589721"
+          }
+        },
+        {
+          "client_id": "988636805920-u3obnkrej4e3bhghu2c9mi4eej9a996q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4nv42b_JL94uF33ToOIsJkYdTTkSSrK0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "988636805920-u3obnkrej4e3bhghu2c9mi4eej9a996q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
