@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:nutloop_ecommerce/model/faqModel.dart';
 import 'package:nutloop_ecommerce/provider/products_provider.dart';
 import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
 import 'package:nutloop_ecommerce/screens/Home/widget/header.dart';
 import 'package:provider/provider.dart';
 
-import 'addCard.dart';
+// import 'addCard.dart';
 
 class FaqScreen extends StatefulWidget {
   @override
@@ -12,8 +13,10 @@ class FaqScreen extends StatefulWidget {
 }
 
 class _FaqScreenState extends State<FaqScreen> {
+  int selected = 0;
   @override
   Widget build(BuildContext context) {
+    Provider.of<List<FaqModel>>(context);
     //  Provider.of<ProductsProvider>(context, listen: false).getFaqies();
     // print(faqList);
     return Scaffold(
@@ -32,61 +35,51 @@ class _FaqScreenState extends State<FaqScreen> {
                 child: Container(
                     margin: EdgeInsets.only(top: 5.0, left: 10.0, right: 10.0),
                     child: Consumer<ProductsProvider>(
-                        builder: (_, faqList, child) => ListView(
-                              children:
-                                  List.generate(faqList.getFaq.length, (index) {
-                                return Column(
-                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(faqList.getFaq[index].question,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                                InkWell(
-                                             onTap: (){
-                                                Provider.of<ProductsProvider>(context, listen: false).togglefaqRev(
-                                                  faqList.getFaq[index].id
-                                                );
-                                             },
-                                             child:  Provider.of<ProductsProvider>(context).faqRev == false ? 
-                                             Icon(Icons.add, size: 30.0,):Icon(Icons.remove,  size: 20.0)
-                                             
-                                             )
-                                      ],
-                                    ),
-                                    Provider.of<ProductsProvider>(context)
-                                                .faqRev ==
-                                            false
-                                        ? SizedBox()
-                                        : faqList
-                                                    .getFaq[index].defaultOpen == 0 ? SizedBox(): Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 10.0, right: 10.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(faqList
-                                                    .getFaq[index].answer),
-                                                SizedBox(
-                                                  height: 20.0,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(height: 20.0,),
-                                    line(context),
-                                    SizedBox(height: 20.0,)
-                                  ],
-                                );
-                                // Text(faqList.getFaq[index].question);
-                              }),
-                            )))))
+                      builder: (_, faqList, child) => ListView.builder(
+                        key: Key('builder ${selected.toString()}'), //attention
+
+                        padding: EdgeInsets.only(
+                            left: 13.0, right: 13.0, bottom: 25.0),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: faqList.getFaq.length,
+                        itemBuilder: (context, index) {
+                          return Column(children: <Widget>[
+                            Divider(
+                              height: 17.0,
+                              color: Colors.white,
+                            ),
+                            ExpansionTile(
+                                key: Key(index.toString()), //attention
+                                initiallyExpanded:
+                                    index == selected, //attention
+                                title: Text('${faqList.getFaq[index].question}',
+                                    style: TextStyle(
+                                        color: kBrandColor,
+                                        fontSize: 17.0,
+                                        fontWeight: FontWeight.bold)),
+                                children: <Widget>[
+                                  Padding(
+                                      padding: EdgeInsets.all(25.0),
+                                      child: Text(
+                                        '${faqList.getFaq[index].answer}',
+                                      ))
+                                ],
+                                onExpansionChanged: ((newState) {
+                                  if (newState)
+                                    setState(() {
+                                      Duration(seconds: 20000);
+                                      selected = index;
+                                    });
+                                  else
+                                    setState(() {
+                                      selected = -1;
+                                    });
+                                })),
+                          ]);
+                        },
+                      ),
+                    ))))
       ]),
     ));
   }

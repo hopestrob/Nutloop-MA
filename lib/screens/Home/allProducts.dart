@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:nutloop_ecommerce/helper/api.dart';
-import 'package:nutloop_ecommerce/model/category_model.dart';
+import '../../helper/config_size.dart';
 // import 'package:nutloop_ecommerce/model/product_model.dart';
 import 'package:nutloop_ecommerce/provider/products_provider.dart';
 import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
@@ -23,12 +23,14 @@ class _AllProductsState extends State<AllProducts> {
  @override
   Widget build(BuildContext context) {
      Size size = MediaQuery.of(context).size;
+     Provider.of<ProductsProvider>(context).getCategories();
     // ignore: unused_element
-    Future<List<CategoryModel>> getUserData() => ProductsProvider().getCategories();
+    // Future<List<CategoryModel>> getUserData() => ProductsProvider().getCategories();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: GestureDetector(
+        child: 
+        GestureDetector(
           behavior: HitTestBehavior.opaque,
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
@@ -43,7 +45,7 @@ class _AllProductsState extends State<AllProducts> {
                 child: Center(child: Text('All Products', style: TextStyle(color: kBrandColor, fontSize: 20.0, fontWeight: FontWeight.bold)),),
               ),
               buildSearchRow(),
-             SizedBox(height: size.height * 0.020),
+              SizedBox(height: 0.56 *SizeConfig.heightMultiplier),
                 //    FutureBuilder(
                 //  future: getUserData(),
                 //      builder: (context, snapshot) {
@@ -72,29 +74,23 @@ class _AllProductsState extends State<AllProducts> {
                           itemCount: categories.length == null ? 0 : categories.length,
                           itemBuilder: (context, index) {
                             // print("this is category ${categories[index].id}");
+                            // print(Color(int.parse('${categories[index].textColor.replaceAll('#', '0xFF')}')));
                               return InkWell(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsByCategory(categoryName: categories[index].name, categoryId:categories[index].id.toString())));
                                 },
                                  child: Container(
-                                  height:  size.height > 412 ? size.height * 0.1500 : size.height * 0.2100,
+                                  height:  27.77 * SizeConfig.widthMultiplier,
+                                  // 100,
                                   // height: MediaQuery.of(context).size.height / 7.5,
                                   margin: EdgeInsets.only(top:5.0, bottom: 20.0, right: 15.0, left: 15.0),
                                   padding: EdgeInsets.all(10.0),
                                    decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    color: categories[index].name == "Vegetables" ? productColor2
-                                     : categories[index].name == "Fresh Fruits" ? productColor2 
-                                     : categories[index].name == "Cereals & Grains" ? kBrandColor
-                                     : categories[index].name == "Meat and Poultry" ? productColor2
-                                     : categories[index].name == "Cooking Produce" ? kBrandColor  : kBrandColor,
+                                    color: Color(int.parse('${categories[index].backgroundColor.replaceAll('#', '0xFF')}')),
                                      boxShadow: [
                                     BoxShadow(
-                                      color: categories[index].name == "Vegetables" ? productColor2
-                                     : categories[index].name == "Fresh Fruits" ? productColor2 
-                                      : categories[index].name == "Cereals & Grains" ? kBrandColor
-                                     : categories[index].name == "Meat and Poultry" ? productColor2
-                                     : categories[index].name == "Cooking Produce" ? kBrandColor  : kBrandColor,
+                                      color: Color(int.parse('${categories[index].backgroundColor.replaceAll('#', '0xFF')}')),
                                       spreadRadius: 5,
                                       blurRadius: 1.2,
                                       offset: Offset(0, 3), // changes position of shadow
@@ -108,19 +104,20 @@ class _AllProductsState extends State<AllProducts> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            width:size.width/1.6,
+                                            width: 55.55 * SizeConfig.widthMultiplier,
+                                            // 200,
                                             child: Text(categories[index].name, overflow: TextOverflow.ellipsis, style: TextStyle(
-                                              color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold
+                                              fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white)
                                             )),
-                                          ),
+                                        
                                           
                                           Container(
-                                            width: size.width / 1.6,
+                                            width: 55.55 * SizeConfig.widthMultiplier,
                                              height: size.height * 0.0800,
                                             child: Text(categories[index].description, style: TextStyle(
-                                              color: Colors.white, fontSize: 12.0,
-                                             
-                                            ), 
+                                              color: Colors.white, fontSize: 3.33 * SizeConfig.widthMultiplier,
+                                              // 12.0,
+                                            ) 
                                             // overflow: TextOverflow.ellipsis,
                                             
                                             ),
@@ -128,7 +125,7 @@ class _AllProductsState extends State<AllProducts> {
                                         ],
                                       ),
                                        Image.network(
-                                         Api.imageUrl + categories[index].icon, height: 40, width: 40, color: Colors.white.withOpacity(.6)),
+                                         Api.imageUrl + categories[index].icon, height: 11.11 * SizeConfig.imageSizeMultiplier, width: 11.11 * SizeConfig.imageSizeMultiplier, color: Colors.white.withOpacity(.6)),
                                     //   Icon(
                                     //     Icons.categories[index].icon 
                                     //  : _category[index].categoryName == "Meat and Poultry" ? Icons.fastfood
@@ -205,13 +202,13 @@ class SearchProductWidget extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         style:
-            new TextStyle(fontWeight: FontWeight.normal, color: greyColor4),
+            new TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
         decoration: new InputDecoration(
             contentPadding:
                 new EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
-            labelText: "What would you like to buy today?",
-            labelStyle: TextStyle(fontSize: 12.0),
-            fillColor: greyColor5,
+            hintText: "What would you like to buy today?",
+            hintStyle: TextStyle(fontSize: 12.0, color: kBrandColor),
+            // fillColor: Colors.grey,
             prefixIcon: Icon(Icons.search, color: kBrandColor),
             // border: new OutlineInputBorder(
             //     borderRadius: new BorderRadius.all(Radius.circular(50.0)), gapPadding: 12),
@@ -220,6 +217,10 @@ class SearchProductWidget extends StatelessWidget {
         focusedBorder: InputBorder.none,
         errorBorder: InputBorder.none,
         disabledBorder: InputBorder.none,
+            //  focusedBorder:OutlineInputBorder(
+            // borderSide: const BorderSide(color: kBrandColor, width: 2.0),
+          //   borderRadius: BorderRadius.circular(25.0),
+          // ),
             filled: true),
         validator: (val) {
           if (val.length == 0) {
@@ -232,6 +233,7 @@ class SearchProductWidget extends StatelessWidget {
     );
   }
 }
+
 
 class UserWidget extends StatelessWidget {
   final String productName;

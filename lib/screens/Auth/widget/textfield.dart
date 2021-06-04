@@ -33,6 +33,9 @@ class CustomTextField extends StatelessWidget {
               labelStyle: TextStyle(
                   color: kPrimaryColor, fontSize: 15),
                    errorText: validateName(controller.text, hitText),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey)
+            ),
             ),
           ),
     );
@@ -190,5 +193,67 @@ Widget loginshowText(BuildContext context) {
             style: TextStyle(color: Colors.white));
   }
   return Text('Login',
+            style: TextStyle(color: Colors.white));
+}
+
+
+Widget passwordRest(BuildContext context) {
+  switch (context.watch<Authentication>().passWordResetState) {
+    case PassWordResetState.initial:
+      return Text('Reset',
+            style: TextStyle(color: Colors.white));
+    case PassWordResetState.loading:
+      return Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(right: 15),
+            height: 50,
+            child: CupertinoActivityIndicator(
+              radius: 12,
+            ),
+          ),
+          Text("Authenticating...",
+            style: TextStyle(color: Colors.white))
+        ],
+      );
+    case PassWordResetState.error:
+      return Text('Try Again',
+            style: TextStyle(color: Colors.white));
+    case PassWordResetState.complete:
+      return Text('Reset',
+            style: TextStyle(color: Colors.white));
+  }
+  return Text('Reset',
+            style: TextStyle(color: Colors.white));
+}
+
+
+Widget updateProfile(BuildContext context) {
+  switch (context.watch<Authentication>().profileUpdateState) {
+    case ProfileUpdateState.initial:
+      return Text('Save Changes',
+            style: TextStyle(color: Colors.white));
+    case ProfileUpdateState.loading:
+      return Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(right: 15),
+            height: 50,
+            child: CupertinoActivityIndicator(
+              radius: 12,
+            ),
+          ),
+          Text("Authenticating...",
+            style: TextStyle(color: Colors.white))
+        ],
+      );
+    case ProfileUpdateState.error:
+      return Text('Try Again',
+            style: TextStyle(color: Colors.white));
+    case ProfileUpdateState.complete:
+      return Text('Save Changes',
+            style: TextStyle(color: Colors.white));
+  }
+  return Text('Save Changes',
             style: TextStyle(color: Colors.white));
 }

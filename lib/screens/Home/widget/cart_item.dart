@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nutloop_ecommerce/provider/products_provider.dart';
 import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/cart.dart';
 
-class CartItem extends StatelessWidget {
-  final String id;
+class CartItem extends StatefulWidget {
+  final int id;
   final String productId;
   final String imageUrl;
   final double price;
@@ -15,17 +14,29 @@ class CartItem extends StatelessWidget {
   final String productName;
   final String measurement;
   final String measurementID;
-  final double total;
+  // final double total;
 
-  CartItem(this.id, this.productId, this.imageUrl, this.price, this.quantity,
-      this.productName, this.measurement, this.measurementID, 
-      this.total
-      );
+  CartItem(
+    this.id,
+    this.productId,
+    this.imageUrl,
+    this.price,
+    this.quantity,
+    this.productName,
+    this.measurement,
+    this.measurementID,
+    // this.total
+  );
 
+  @override
+  _CartItemState createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(id),
+      key: ValueKey(widget.id),
       direction: DismissDirection.endToStart,
       background: Container(
         color: Theme.of(context).errorColor,
@@ -45,13 +56,13 @@ class CartItem extends StatelessWidget {
             title: Text('Are you sure!'),
             content: Text('Do you want to remove the cart item?'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('No'),
                 onPressed: () {
                   Navigator.of(innerContext).pop(false);
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text("Yes"),
                 onPressed: () {
                   Navigator.of(innerContext).pop(true);
@@ -63,7 +74,8 @@ class CartItem extends StatelessWidget {
       },
       onDismissed: (direction) {
         // if(direction == DismissDirection.endToStart) {
-        Provider.of<Cart>(context, listen: false).removeItem(productId);
+        Provider.of<CartProvider>(context, listen: false)
+            .removeItem(widget.productId);
         // }
       },
       child: Card(
@@ -80,26 +92,26 @@ class CartItem extends StatelessWidget {
                   height: 120,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: NetworkImage(imageUrl), fit: BoxFit.cover)),
+                          image: NetworkImage(widget.imageUrl),
+                          fit: BoxFit.cover)),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       width: 130.0,
-                      child: Text(productName,
+                      child: Text(widget.productName,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.grey)),
                     ),
-                    Text('$total'),
                     SizedBox(
                       height: 5.0,
                     ),
                     Text(
-                      "N${(price * quantity)}/$measurement",
+                      "N${(widget.price * widget.quantity)}/${widget.measurement}",
                       style: TextStyle(color: Colors.grey, fontSize: 12.0),
                     ),
                     SizedBox(
@@ -108,7 +120,7 @@ class CartItem extends StatelessWidget {
                     Row(
                       // crossAxisAlignment: CrossAxisAlignment.,
                       children: [
-                        CounterView(qty: quantity, id: id),
+                        CounterView(qty: widget.quantity, id: widget.id),
                         // Container(
                         //   height: 38.0,
                         //   decoration: BoxDecoration(
@@ -130,14 +142,14 @@ class CartItem extends StatelessWidget {
                         //         child: Icon(Icons.remove,  color: kPrimaryColor),
                         //         onTap: (){
                         //           if(quantity == 0) return;
-                        //            Provider.of<Cart>(context, listen: false).decrementQty();
+                        //            Provider.of<CartProvider>(context, listen: false).decrementQty();
                         //         },
                         //     )
 
                         //       ),
                         //        Container(
                         //          width: 40.0,
-                        //          child: Text("${Provider.of<Cart>(context, listen: false).getQuantity()}", textAlign: TextAlign.center, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),)),
+                        //          child: Text("${Provider.of<CartProvider>(context, listen: false).getQuantity()}", textAlign: TextAlign.center, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),)),
                         //      Container(
                         //         width: 40.0,
                         //         height: 50,
@@ -147,7 +159,7 @@ class CartItem extends StatelessWidget {
                         //     // border: Border.all(color: kPrimaryColor)
                         //     ),
                         //     child: InkWell(onTap: (){
-                        //       Provider.of<Cart>(context, listen: false).incrementQty();
+                        //       Provider.of<CartProvider>(context, listen: false).incrementQty();
                         //     },
                         //       child: Icon(Icons.add, color: kPrimaryColor),
                         //     )
@@ -171,8 +183,9 @@ class CartItem extends StatelessWidget {
                                     BorderRadius.all(Radius.circular(30.0))),
                             child: InkWell(
                                 onTap: () {
-                                  Provider.of<Cart>(context, listen: false)
-                                      .deleteCart(id);
+                                  Provider.of<CartProvider>(context,
+                                          listen: false)
+                                      .deleteCart(widget.id);
                                 },
                                 child: Icon(FontAwesomeIcons.trash,
                                     color: Colors.white)))
@@ -189,9 +202,10 @@ class CartItem extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class CounterView extends StatefulWidget {
   int qty;
-  String id;
+  int id;
   CounterView({this.qty, this.id});
   @override
   _CounterViewState createState() => new _CounterViewState();
@@ -222,11 +236,11 @@ class _CounterViewState extends State<CounterView> {
               icon: new Icon(Icons.remove),
               onPressed: () {
                 setState(() => widget.qty--);
-                Provider.of<Cart>(context, listen: false)
-                    .updateCart(widget.id, widget.qty);
+                Provider.of<CartProvider>(context, listen: false)
+                    .updateCart(widget.id, widget.qty, widget.id);
                 print(widget.qty);
               }
-              //  Provider.of<Cart>(context, listen: false).decrementQty()
+              //  Provider.of<CartProvider>(context, listen: false).decrementQty()
               ,
             ),
           ),
@@ -263,8 +277,8 @@ class _CounterViewState extends State<CounterView> {
                     setState(() {
                       widget.qty++;
                     });
-                    Provider.of<Cart>(context, listen: false)
-                        .updateCart(widget.id, widget.qty);
+                    Provider.of<CartProvider>(context, listen: false)
+                        .updateCart(widget.id, widget.qty, widget.id);
                     print(widget.qty);
                   }))
         ],

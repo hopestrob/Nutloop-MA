@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:nutloop_ecommerce/provider/auth_provider.dart';
+import 'package:nutloop_ecommerce/provider/cart.dart';
 import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
 import 'package:nutloop_ecommerce/screens/Auth/widget/textfield.dart';
 import 'package:provider/provider.dart';
 
-class AddDeliveryAddress extends StatefulWidget {
+class UpdateDeliveryAddress extends StatefulWidget {
+  final int addressId;
+  UpdateDeliveryAddress({this.addressId});
+
   @override
-  _AddDeliveryAddressState createState() => _AddDeliveryAddressState();
+  _UpdateDeliveryAddressState createState() => _UpdateDeliveryAddressState();
 }
 
-class _AddDeliveryAddressState extends State<AddDeliveryAddress> {
+class _UpdateDeliveryAddressState extends State<UpdateDeliveryAddress> {
   TextEditingController txtaddress = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -26,8 +30,49 @@ class _AddDeliveryAddressState extends State<AddDeliveryAddress> {
   bool _value = false;
   bool _value2 = false;
   @override
+  void initState() {
+    super.initState();
+    //   firstNameController.text =
+    //       Provider.of<Authentication>(context, listen: false)
+    //           .getAddressBook
+    //           .firstName
+    //           .toString();
+    //   lastNameController.text =
+    //       Provider.of<Authentication>(context, listen: false)
+    //           .getAddressBook
+    //           .lastName
+    //           .toString();
+    //   phoneController.text = Provider.of<Authentication>(context, listen: false)
+    //       .getAddressBook
+    //       .phoneNumber
+    //       .toString();
+    //   mobileController.text = Provider.of<Authentication>(context, listen: false).getAddressBook.mobileNumber.toString();
+    //   houseNoController.text = Provider.of<Authentication>(context, listen: false)
+    //       .getAddressBook
+    //       .houseNo
+    //       .toString();
+    //   streetController.text = Provider.of<Authentication>(context, listen: false)
+    //       .getAddressBook
+    //       .street
+    //       .toString();
+    //   areaController.text = Provider.of<Authentication>(context, listen: false)
+    //       .getAddressBook
+    //       .area
+    //       .toString();
+    //   cityController.text = Provider.of<Authentication>(context, listen: false)
+    //       .getAddressBook
+    //       .city
+    //       .toString();
+    //   deliveryInsController.text =
+    //       Provider.of<Authentication>(context, listen: false)
+    //           .getAddressBook
+    //           .deliveryInstructions
+    //           .toString();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Provider.of<Authentication>(context, listen: false).getAddressBookList();
     Size size = MediaQuery.of(context).size;
     // This size provide us total height and width of our screen
     return Scaffold(
@@ -71,7 +116,8 @@ class _AddDeliveryAddressState extends State<AddDeliveryAddress> {
             builder: (context, authUser, child) => Card(
               child: Container(
                 padding: const EdgeInsets.all(8.0),
-                height: 900,
+                height:
+                    size.height > 412 ? size.height * 1.1 : size.height * 2.2,
                 child: ListView(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   physics: NeverScrollableScrollPhysics(),
@@ -91,16 +137,11 @@ class _AddDeliveryAddressState extends State<AddDeliveryAddress> {
                       controller: phoneController,
                       hitText: "Phone Number",
                     ),
-                    CustomTextField(
-                      keyboardType: TextInputType.phone,
-                      controller: mobileController,
-                      hitText: "Mobile Number",
-                    ),
                     Container(
                       margin: EdgeInsets.all(10.0),
                       padding: EdgeInsets.all(10.0),
                       child: TextFormField(
-                        keyboardType: TextInputType.number,
+                        // keyboardType: keyboardType,
                         style: TextStyle(
                           color: Colors.black,
                         ),
@@ -114,6 +155,11 @@ class _AddDeliveryAddressState extends State<AddDeliveryAddress> {
                               TextStyle(color: kPrimaryColor, fontSize: 15),
                         ),
                       ),
+                    ),
+                    CustomTextField(
+                      keyboardType: TextInputType.phone,
+                      controller: mobileController,
+                      hitText: "Mobile Number *",
                     ),
                     CustomTextField(
                       keyboardType: TextInputType.streetAddress,
@@ -238,26 +284,26 @@ class _AddDeliveryAddressState extends State<AddDeliveryAddress> {
               child: TextButton(
                   onPressed: () {
                     // print(authUserSave.getAddressBook.street);
-                    // Provider.of<Cart>(context, listen: false)
-                    //     .saveAddress(streetController.text.trim());
-                    authUserSave.addAddressBook(
-                        firstNameController.text.trim(),
-                        lastNameController.text.trim(),
-                        phoneController.text.trim(),
-                        mobileController.text.trim(),
-                        houseNoController.text.trim(),
-                        streetController.text.trim(),
-                        cityController.text.trim(),
-                        areaController.text.trim(),
-                        deliveryInsController.text.trim());
-                    if (authUserSave.getAddressBook == null) {
+                    Provider.of<CartProvider>(context, listen: false)
+                        .saveAddress(streetController.text.trim());
+                    authUserSave.updateAddressBook(
+                        1,
+                        // Provider.of<Authentication>(context, listen: false).getAddressBook.id,
+                        firstNameController.text,
+                        lastNameController.text,
+                        phoneController.text,
+                        mobileController.text,
+                        houseNoController.text,
+                        streetController.text,
+                        cityController.text,
+                        areaController.text,
+                        deliveryInsController.text);
+                    if (authUserSave.getAddressBook != null) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text('Error Processsing Your Order')));
                       Navigator.pop(context);
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('Address Added Successfully')));
-                      Navigator.pop(context);
+                      print('Error processing the form');
                     }
                   },
                   child: Text(

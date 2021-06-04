@@ -3,10 +3,8 @@ import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
 import 'package:nutloop_ecommerce/screens/Auth/widget/textfield.dart';
 import 'package:provider/provider.dart';
 import 'package:nutloop_ecommerce/provider/auth_provider.dart';
-import '../../screens/Home/homepage.dart';
-import '../../screens/Home/allProducts.dart';
-import '../../screens/Home/cart_screen.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:nutloop_ecommerce/model/user.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../Home/widget/header.dart';
 
@@ -19,146 +17,137 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController firstName = TextEditingController();
 
-  TextEditingController lastName = TextEditingController();
+  TextEditingController email = TextEditingController();
 
   TextEditingController phone = TextEditingController();
-PageController pageController;
-  int pageIndex = 3;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // Future<UserModel>  _future;
 
   @override
   void initState() {
     super.initState();
-    pageController = PageController();
+    // _future =  Provider.of<Authentication>(context, listen:false).getProfileDetail();
+    firstName.text = Provider.of<Authentication>(context, listen: false)
+        .getSingleUserDetail
+        .data
+        ?.user
+        ?.name;
+    phone.text = Provider.of<Authentication>(context, listen: false)
+        .getSingleUserDetail
+        .data
+        ?.user
+        ?.phoneNumber;
+    email.text = Provider.of<Authentication>(context, listen: false)
+        .getSingleUserDetail
+        .data
+        ?.user
+        ?.email;
   }
 
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
+  void didChangeDependencies() {
+    Provider.of<Authentication>(context).getProfileDetail();
+    super.didChangeDependencies();
   }
 
-  onPageChanged(int pageIndex) {
-    if (mounted) {
-      setState(() {
-        pageIndex = pageIndex;
-      });
-    }
-  }
-
-  onTap(int pageIndex) {
-    pageController.animateToPage(pageIndex,
-        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
-  }
   @override
   Widget build(BuildContext context) {
+// Provider.of<Authentication>(context, listen: false).getProfileDetail();
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: PageView(
-            children: [       
+      resizeToAvoidBottomInset: false,
+      key: _scaffoldKey,
+      body: SafeArea(
+          child:
+              // FutureBuilder(
+              //     future: _future,
+              //     // Provider.of<Cart>(context, listen: false)
+              //     //     .getSavedCartItemsList(),
+              //     builder: (BuildContext context, AsyncSnapshot snapshot) {
+              //       if (snapshot.hasData) {
+
+              //         return
               Column(children: [
-                Container(
-                    child: header(context, "Edit Profile")),
-                SizedBox(height: 10),
-                Expanded(
-                    child: Container(
-                  color: greyColor5,
-                  child: ListView(children: <Widget>[
-                    CustomTextField(controller: firstName, hitText: "First Name"),
-                    CustomTextField(controller: lastName, hitText: "Last Name"),
-                    CustomTextField(controller: phone, hitText: "phone Number"),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(10.0),
-                      padding: EdgeInsets.all(10.0),
-                      width: MediaQuery.of(context).size.width / 1.2,
-                      decoration: BoxDecoration(
-                          color: kBrandColor,
-                          borderRadius: BorderRadius.circular(5.0)),
-                      child: FlatButton(
-                        onPressed: () {
-                          print("Changed");
-                        },
-                        child: Text(
-                          'Save Changes',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ]),
-                ))
-              ]),
-        Consumer<Authentication>(
-             builder: (_, authuser, child) => Homepage(authName:"${authuser.getAuthUser}", selectedPage: 0)),
-            AllProducts(),
-            CartScreen(),
-            // ProfileScreen(),
-            ],
-               controller: pageController,
-          onPageChanged: onPageChanged,
-          physics: NeverScrollableScrollPhysics(),
-          ),
-        ),
-         bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-          currentIndex: pageIndex,
-          onTap: onTap,
-          selectedItemColor: kBrandColor,
-          unselectedItemColor: greyColor2,
-          items: [
-            BottomNavigationBarItem(
-                icon:Icon(Icons.home,
-                  color: greyColor2,
+        Container(child: header(context, "Edit Profile")),
+        SizedBox(height: 10),
+        Expanded(
+            child: Container(
+          color: greyColor5,
+          child: ListView(children: <Widget>[
+            CustomTextField(controller: firstName, hitText: "Fullname"),
+            Container(
+              margin: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0),
+              child: TextFormField(
+                readOnly: true,
+                keyboardType: TextInputType.emailAddress,
+                style: TextStyle(
+                  color: Colors.black,
                 ),
-                activeIcon:Icon(Icons.home,
-                  color: kBrandColor,
-                ),                
-                // ignore: deprecated_member_use
-                title: Text(
-                  'Home',
-                  style: TextStyle(color: greyColor2),
-                )),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.format_list_bulleted_rounded, color: greyColor2),
-                activeIcon:Icon(Icons.format_list_bulleted_rounded, color: kBrandColor),
-                // ignore: deprecated_member_use
-                title: Text(
-                  'All Products',
-                  style: TextStyle(color: greyColor2),
-                )),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart, color: greyColor2),
-                activeIcon:Icon(Icons.shopping_cart, color: kBrandColor),
-                // ignore: deprecated_member_use
-                title: Text(
-                  'Cart',
-                  style: TextStyle(color: greyColor2),
-                )),
-            // BottomNavigationBarItem(icon: Icon(Icons.search, color: greyColor2), title: Text('Advance Search', style: TextStyle(color:Colors.black),)),
-            BottomNavigationBarItem(
-                icon: IconButton(
-                  onPressed: (){
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                       Consumer<Authentication>(
-                            builder: (_, authuser, child) => Homepage(authName:"${authuser.getAuthUser}", selectedPage: 3)),), (Route<dynamic> route) => false);
-                  },
-                  icon: Icon(FontAwesomeIcons.userCircle, color: greyColor2)),
-                activeIcon:IconButton(
-                  onPressed: (){
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                       Consumer<Authentication>(
-                            builder: (_, authuser, child) => Homepage(authName:"${authuser.getAuthUser}", selectedPage: 3)),), (Route<dynamic> route) => false);
-                  },
-                  icon: Icon(FontAwesomeIcons.userCircle, color: kBrandColor)),
-                // ignore: deprecated_member_use
-                title: Text(
-                  'Profile',
-                  style: TextStyle(color: greyColor2),
-                )),
+                controller: email,
+                decoration: InputDecoration(
+                  enabled: false,
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey)),
+                  contentPadding: EdgeInsets.only(bottom: 20.0),
+                  labelText: 'Email',
+                  labelStyle: TextStyle(color: kPrimaryColor, fontSize: 15),
+                  // errorText: validateName(controller.text, hitText),
+                ),
+              ),
+            ),
+            CustomTextField(controller: phone, hitText: "Phone Number"),
+            SizedBox(
+              height: 20.0,
+            ),
+            Container(
+              margin: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              decoration: BoxDecoration(
+                  color: kBrandColor, borderRadius: BorderRadius.circular(5.0)),
+              child: TextButton(
+                onPressed: () async {
+                  if (firstName.text.trim().isNotEmpty) {
+                    if (!await context.read<Authentication>().updateProfile(
+                        firstName.text.trim(),
+                        email.text.trim(),
+                        phone.text.trim())) {
+                      switch (context
+                          .read<Authentication>()
+                          .getprofileUpdateError) {
+                        case ProfileUpdateError.otherErrors:
+                          return ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content:
+                                      Text('Unable to Update Your Profile')));
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Profile Successfully Updated'),
+                        duration: Duration(seconds: 3),
+                      ));
+                      Navigator.pop(context);
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Name Field Must not be empty')));
+                  }
+                },
+                child: updateProfile(context),
+              ),
+            ),
           ]),
-   
-        );
+        ))
+      ])
+          // } else {
+          //     return Center(
+          //       child: CupertinoActivityIndicator(
+          //         radius: 12,
+          //       ),
+          //     );
+          //   }
+          //   })
+
+          ),
+    );
   }
 }

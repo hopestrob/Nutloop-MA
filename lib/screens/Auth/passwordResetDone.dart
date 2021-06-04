@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'auth_screen.dart';
 import 'constants.dart';
 
 // ignore: must_be_immutable
@@ -30,7 +31,14 @@ class ForgotPasswordDoneScreen extends StatelessWidget {
                           children: [
                               InkWell(
                                   onTap: () {
-                                    Navigator.of(context).pop();
+                                   Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return AuthScreen(0);
+                                      },
+                                    ),
+                                  );
                                   },
                                 child: Icon(Icons.arrow_back_ios, size: 30, color: greyColor2)),
                             Padding(

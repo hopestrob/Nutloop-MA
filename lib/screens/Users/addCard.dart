@@ -48,7 +48,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       Container(
                           margin: EdgeInsets.only(left: 10.0, bottom: 3.0),
                           padding: EdgeInsets.only(left: 10.0, bottom: 3.0),
-                          child: Text('Enter Card Details', style: TextStyle(fontWeight: FontWeight.bold))),
+                          child: Text('Enter Card Details',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
                       CustomTextField(
                           controller: firstName, hitText: "Card Number"),
                       CustomTextField(
@@ -56,8 +57,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                       Row(
                         children: [
                           Container(
-                              margin: EdgeInsets.only(top:10.0, left:10.0),
-                              padding: EdgeInsets.only(top:10.0, bottom: 10.0, left:10.0),
+                              margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                              padding: EdgeInsets.only(
+                                  top: 10.0, bottom: 10.0, left: 10.0),
                               width: MediaQuery.of(context).size.width / 2.2,
                               child: TextField(
                                 style: TextStyle(
@@ -77,8 +79,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                       color: kPrimaryColor, fontSize: 15),
                                 ),
                               )),
-                              Container(
-                               margin: EdgeInsets.only(top:10.0, right:5.0),
+                          Container(
+                              margin: EdgeInsets.only(top: 10.0, right: 5.0),
                               padding: EdgeInsets.all(10.0),
                               width: MediaQuery.of(context).size.width / 2.2,
                               child: TextField(
@@ -99,7 +101,6 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                       color: kPrimaryColor, fontSize: 15),
                                 ),
                               )),
-                       
                         ],
                       ),
                       SizedBox(
@@ -108,8 +109,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                     ],
                   ),
                 ),
-                
-                 Container(
+                Container(
                   width: 355,
                   height: MediaQuery.of(context).size.width / 1.8,
                   decoration: BoxDecoration(
@@ -125,103 +125,111 @@ class _AddCardScreenState extends State<AddCardScreen> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Container(
+                      Container(
                           margin: EdgeInsets.only(left: 10.0, bottom: 3.0),
                           padding: EdgeInsets.only(left: 10.0, bottom: 3.0),
-                          child: Text('Credit Card Options', style: TextStyle(fontWeight: FontWeight.bold),)),
-                     InkWell(
-                  onTap: () {
-                    setState(() {
-                      _value = !_value;
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(15.0),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: kBrandColor),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: _value
-                              ? Icon(
-                                  Icons.check,
-                                  size: 30.0,
-                                  color: Colors.white,
-                                )
-                              : Icon(
-                                  Icons.check_box_outline_blank,
-                                  size: 30.0,
-                                  color: Colors.white,
-                                ),
+                          child: Text(
+                            'Credit Card Options',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _value = !_value;
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(15.0),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle, color: kBrandColor),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: _value
+                                    ? Icon(
+                                        Icons.check,
+                                        size: 30.0,
+                                        color: Colors.white,
+                                      )
+                                    : Icon(
+                                        Icons.check_box_outline_blank,
+                                        size: 30.0,
+                                        color: Colors.white,
+                                      ),
+                              ),
+                            ),
+                            Text('Set as default payment card')
+                          ],
                         ),
                       ),
-                      Text('Set as default payment card')
-                    ],
-                  ),
-                ), 
-                line(context),
-                    InkWell(
-                  onTap: () {
-                    setState(() {
-                      _value2 = !_value2;
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(15.0),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: kBrandColor),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: _value2
-                              ? Icon(
-                                  Icons.check,
-                                  size: 30.0,
-                                  color: Colors.white,
-                                )
-                              : Icon(
-                                  Icons.check_box_outline_blank,
-                                  size: 30.0,
-                                  color: Colors.white,
-                                ),
+                      line(context),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _value2 = !_value2;
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(15.0),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle, color: kBrandColor),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: _value2
+                                    ? Icon(
+                                        Icons.check,
+                                        size: 30.0,
+                                        color: Colors.white,
+                                      )
+                                    : Icon(
+                                        Icons.check_box_outline_blank,
+                                        size: 30.0,
+                                        color: Colors.white,
+                                      ),
+                              ),
+                            ),
+                            Text('Pay Once with this card')
+                          ],
                         ),
                       ),
-                      Text('Pay Once with this card')
                     ],
-                  ),
-                ), 
-                 ],
                   ),
                 ),
-               
-                  SizedBox(height: 20.0,),
-                    Container(
-                          margin: EdgeInsets.only(top:10.0, bottom: 10.0, right: 30.0, left: 30.0),
-                      width: MediaQuery.of(context).size.width / 1.7,
-                      decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.circular(5.0)
-                      ),
-                      child: FlatButton(
-                        onPressed: (){
-                          print('Use this card');
-                        },
-                      child: Text('Use this Card', style: TextStyle(color: Colors.white),),
-                      ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                      top: 10.0, bottom: 10.0, right: 30.0, left: 30.0),
+                  width: MediaQuery.of(context).size.width / 1.7,
+                  decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(5.0)),
+                  child: TextButton(
+                    onPressed: () {
+                      print('Use this card');
+                    },
+                    child: Text(
+                      'Use this Card',
+                      style: TextStyle(color: Colors.white),
                     ),
-              
+                  ),
+                ),
               ]),
             ))
           ]),
         ));
   }
 }
-line(BuildContext context)=>  Padding(padding: EdgeInsets.symmetric(horizontal: 10.0), 
-                          child: Container(
-                            height: 1.0,
-                               width: MediaQuery.of(context).size.width,
-                            color: greyColor4,
-                          ),
-                         );
+
+line(BuildContext context) => Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      child: Container(
+        height: 1.0,
+        width: MediaQuery.of(context).size.width,
+        color: greyColor4,
+      ),
+    );

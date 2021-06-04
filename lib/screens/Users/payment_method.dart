@@ -33,7 +33,8 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               child: ListView(children: <Widget>[
                 Container(
                   width: 355,
-                  height: 31.34 * SizeConfig.heightMultiplier,
+                  height: 41.666 * SizeConfig.heightMultiplier,
+                  // 250,
                   decoration: BoxDecoration(
                     // borderRadius: BorderRadius.circular(10.0),
                     color: Colors.white,

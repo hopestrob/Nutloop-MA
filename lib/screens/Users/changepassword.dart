@@ -13,7 +13,7 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextEditingController password = TextEditingController();
 
@@ -28,16 +28,25 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         key: _scaffoldKey,
         body: SafeArea(
           child: Column(children: [
-            Container(
-                child: header(context, "Change Password")),
+            Container(child: header(context, "Change Password")),
             SizedBox(height: 10),
             Expanded(
                 child: Container(
               color: greyColor5,
               child: ListView(children: <Widget>[
-                CustomPasswordFields(labeltext: "Current Password", obscureText: true,controller:password,),
-                CustomPasswordFields(labeltext: "New Password",obscureText: true,controller:npassword ),
-                CustomPasswordFields(labeltext: "Confirm New Password", obscureText: true,controller:cnpassword),
+                CustomPasswordFields(
+                  labeltext: "Current Password",
+                  obscureText: true,
+                  controller: password,
+                ),
+                CustomPasswordFields(
+                    labeltext: "New Password",
+                    obscureText: true,
+                    controller: npassword),
+                CustomPasswordFields(
+                    labeltext: "Confirm New Password",
+                    obscureText: true,
+                    controller: cnpassword),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -48,33 +57,40 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   decoration: BoxDecoration(
                       color: kBrandColor,
                       borderRadius: BorderRadius.circular(5.0)),
-                  child: FlatButton(
-                    onPressed: () async{
-                      // print(password.text.trim());
-                      // print(npassword.text.trim());
-                      // print(cnpassword.text.trim());
-                     if(npassword.text.trim() == cnpassword.text.trim()){
+                  child: TextButton(
+                    onPressed: () async {
+                      if (npassword.text.trim() == cnpassword.text.trim()) {
                         if (!await context
-                              .read<Authentication>()
-                              .changePassword(password.text.trim(), npassword.text.trim(), cnpassword.text.trim())) {
-                            switch (context.read<Authentication>().getPassWordError) {
-                              case PassWordError.invalidPassword:
-                                return _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                    content: Text('Invalid Password Entered')));
-                              case PassWordError.otherErrors:
-                                return _scaffoldKey.currentState.showSnackBar(
-                                    SnackBar(content: Text('Unable to Change Your Password')));
-                            }
-                          } else {
-                             _scaffoldKey.currentState.showSnackBar(
-                                    SnackBar(content: Text('Password Changed Successfully'), duration: Duration(seconds: 3),));
-                                    Navigator.pop(context);
-                         
+                            .read<Authentication>()
+                            .changePassword(
+                                password.text.trim(),
+                                npassword.text.trim(),
+                                cnpassword.text.trim())) {
+                          switch (
+                              context.read<Authentication>().getPassWordError) {
+                            case PassWordError.invalidPassword:
+                              return ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text('Invalid Password Entered')));
+                            case PassWordError.otherErrors:
+                              return ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'Unable to Change Your Password')));
                           }
-                     }else{
-                         _scaffoldKey.currentState.showSnackBar(
-                                    SnackBar(content: Text('New Password does not match Confirm password')));
-                     }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Password Changed Successfully'),
+                            duration: Duration(seconds: 3),
+                          ));
+                          Navigator.pop(context);
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'New Password does not match Confirm password')));
+                      }
                     },
                     child: Text(
                       'Save Password',

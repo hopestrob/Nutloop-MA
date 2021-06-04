@@ -401,3 +401,220 @@ class _OrderButtonState extends State<OrderButton> {
     );
   }
 }
+
+
+ Consumer<Cart>(
+              builder: (_, ordermethod, child) => Card(
+                    child: ordermethod.getcardNumber == null &&
+                            ordermethod.getcardName == null &&
+                            ordermethod.getcardCVV == null &&
+                            ordermethod.getcardExpiredate == null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                      margin: EdgeInsets.only(left: 10.0),
+                                      child: Text('Payment',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0))),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CheckOutAddCardScreen()));
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                          margin: EdgeInsets.all(15.0),
+                                          padding: EdgeInsets.all(2.0),
+                                          decoration: BoxDecoration(
+                                              color:
+                                                  Colors.green.withOpacity(.1),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(30.0)),
+                                              border: Border.all(
+                                                  color: kBrandColor,
+                                                  width: 2)),
+                                          child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0,
+                                                  right: 10.0,
+                                                  top: 3,
+                                                  bottom: 3),
+                                              child: Text(
+                                                'Add Credit Card',
+                                                style: TextStyle(
+                                                    color: kBrandColor),
+                                              )))
+                                    ],
+                                  ),
+                                )
+                              ])
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 30.0),
+                                        child: Text('Payment',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16.0))),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CheckOutAddCardScreen()));
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                            margin: EdgeInsets.all(15.0),
+                                            padding: EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                                color: Colors.green
+                                                    .withOpacity(.1),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30.0)),
+                                                border: Border.all(
+                                                    color: kBrandColor,
+                                                    width: 2)),
+                                            child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0,
+                                                    right: 10.0,
+                                                    top: 3,
+                                                    bottom: 3),
+                                                child: Text(
+                                                  'Change Credit Card',
+                                                  style: TextStyle(
+                                                      color: kBrandColor),
+                                                )))
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                               ordermethod.getcardNumber == null &&
+                                      ordermethod.getcardName == null &&
+                                      ordermethod.getcardCVV == null &&
+                                      ordermethod.getcardExpiredate == null
+                                  ? SizedBox()
+                                  :
+                              ListTile(
+                                title: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0,
+                                        right: 8.0,
+                                        bottom: 3.0,
+                                        top: 8.0),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Card Number',
+                                            style: TextStyle(
+                                                color: kBrandColor,
+                                                fontSize: 15.0),
+                                          ),
+                                          SizedBox(height: 5.0),
+                                          Text(
+                                            ordermethod.getcardNumber,
+                                            style: TextStyle(fontSize: 15.0),
+                                          ),
+                                        ])),
+                                subtitle: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0,
+                                        right: 8.0,
+                                        bottom: 15.0,
+                                        top: 20.0),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Name on Card',
+                                            style: TextStyle(
+                                                color: kBrandColor,
+                                                fontSize: 15.0),
+                                          ),
+                                          SizedBox(height: 5.0),
+                                          Text(
+                                            ordermethod.getcardName,
+                                            style: TextStyle(fontSize: 15.0),
+                                          ),
+                                        ])),
+                              ),
+                              ListTile(
+                                      title: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0,
+                                              right: 8.0,
+                                              bottom: 3.0,
+                                              top: 8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      'Expiry Date',
+                                                      style: TextStyle(
+                                                          color: kBrandColor,
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    SizedBox(height: 3.0),
+                                                    Text(
+                                                      ordermethod
+                                                          .getcardExpiredate,
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                  ]),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 100.0),
+                                                child: Column(
+                                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'CVV',
+                                                        style: TextStyle(
+                                                            color: kBrandColor,
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      SizedBox(height: 3.0),
+                                                      Text(
+                                                        ordermethod.getcardCVV,
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                    ]),
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                            ],
+                          ),
+                  )),
+          
