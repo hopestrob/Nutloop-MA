@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nutloop_ecommerce/model/faqModel.dart';
-import 'package:nutloop_ecommerce/provider/products_provider.dart';
-import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
-import 'package:nutloop_ecommerce/screens/Home/widget/header.dart';
+import 'package:nuthoop/model/faqModel.dart';
+import 'package:nuthoop/provider/products_provider.dart';
+import 'package:nuthoop/screens/Auth/constants.dart';
+import 'package:nuthoop/screens/Home/widget/header.dart';
 import 'package:provider/provider.dart';
 
 // import 'addCard.dart';
@@ -17,7 +17,7 @@ class _FaqScreenState extends State<FaqScreen> {
   @override
   Widget build(BuildContext context) {
     Provider.of<List<FaqModel>>(context);
-    //  Provider.of<ProductsProvider>(context, listen: false).getFaqies();
+    Provider.of<ProductsProvider>(context, listen: false).getFaqies();
     // print(faqList);
     return Scaffold(
         body: SafeArea(

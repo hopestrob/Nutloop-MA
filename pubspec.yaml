@@ -1,4 +1,4 @@
-name: nutloop_ecommerce
+name: nuthoop
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -19,6 +19,7 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
+  
 
 dependencies:
   flutter:
@@ -28,18 +29,39 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
-  flutter_svg: ^0.19.1
-  shared_preferences: ^0.5.12
+  flutter_svg:
+  shared_preferences:
   provider: ^4.3.2+2
   intl: ^0.16.1
   font_awesome_flutter: ^8.12.0
   http: ^0.12.2
   firebase_auth:
-  google_sign_in: "^4.5.1"
+  google_sign_in: ^4.5.1
   flutter_facebook_login: ^3.0.0
-  persistent_bottom_nav_bar: any
   carousel_slider:
-  dotted_border: ^1.0.7
+  dotted_border:
+  paystack_manager:
+  connectivity: ^0.4.8+6
+  shimmer: ^1.1.2
+  fluttertoast:
+  firebase_core :
+  share: ^0.6.5+4
+  auto_size_text:
+  flutter_tawk: ^0.0.2
+  smooth_star_rating: ^1.1.1
+  flutter_rating_bar: ^4.0.0
+  url_launcher: ^5.7.10
+    # create pdf document
+  pdf: ^3.1.0
+
+  # save file
+  path_provider:
+
+  # open pdf document
+
+  flutter_full_pdf_viewer: ^1.0.6
+  printing:
+
 
 dev_dependencies:
   flutter_test:
@@ -85,6 +107,13 @@ flutter:
         - asset: asset/font/Poppins-Regular.ttf
         # - asset: fonts/TrajanPro_Bold.ttf
           # weight: 700
-  #
+    - family: Arial
+      fonts:
+        - asset: asset/font/arial.ttf
+        - asset: asset/font/arialbd.ttf
+          weight: 700
+        - asset: asset/font/ariali.ttf
+          style: italic
+    #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

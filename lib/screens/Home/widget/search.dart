@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nutloop_ecommerce/provider/products_provider.dart';
+import 'package:nuthoop/provider/products_provider.dart';
+import 'package:nuthoop/screens/Home/pages/productSearchREsult.dart';
 import 'package:provider/provider.dart';
 import '../../Auth/constants.dart';
 // import '../filteredsearchresult.dart';
-import '../productSearchREsult.dart';
 
 Row buildSearchRow() {
   return Row(

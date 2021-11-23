@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
+import 'package:nuthoop/screens/Auth/constants.dart';
 
 // ignore: must_be_immutable
 class ProgressDialog extends StatelessWidget {
@@ -15,7 +15,6 @@ class ProgressDialog extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(6.0),
-
         ),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -24,9 +23,16 @@ class ProgressDialog extends StatelessWidget {
               SizedBox(
                 width: 6.0,
               ),
-              CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black),),
-              SizedBox(width: 26.0,),
-              Text(message, style: TextStyle(color: Colors.black),)
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+              ),
+              SizedBox(
+                width: 26.0,
+              ),
+              Text(
+                message,
+                style: TextStyle(color: Colors.black),
+              )
             ],
           ),
         ),

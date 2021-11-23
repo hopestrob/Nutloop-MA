@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Welcome/welcome_screen.dart';
 
-
 class OnBoardingScreen extends StatefulWidget {
   @override
   _OnBoardingScreenState createState() => _OnBoardingScreenState();
@@ -127,7 +126,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             Center(
                               child: Image(
                                 image:
-                                AssetImage('asset/images/onboarding_1.png'),
+                                    AssetImage('asset/images/onboarding_1.png'),
                                 height: 300.0,
                                 width: 300.0,
                               ),
@@ -155,7 +154,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             Center(
                               child: Image(
                                 image:
-                                AssetImage('asset/images/onboarding_2.png'),
+                                    AssetImage('asset/images/onboarding_2.png'),
                                 height: 300.0,
                                 width: 300.0,
                               ),
@@ -184,14 +183,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Padding(
-                                  padding:EdgeInsets.symmetric(horizontal: 15.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.0),
                                   child: Text(
                                     'Skip',
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 24.0),
                                   ),
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     _pageController.nextPage(
                                         duration: Duration(microseconds: 300),
@@ -220,7 +220,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               width: double.infinity,
               color: Colors.white,
               child: GestureDetector(
-                onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => WelcomeScreen()), (route) => false),
+                onTap: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                    (route) => false),
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 20.0),
                   child: Row(

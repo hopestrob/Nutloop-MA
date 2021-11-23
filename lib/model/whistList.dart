@@ -91,7 +91,7 @@ class Product {
     farm = json['farm'];
     deliveryArea = json['delivery_area'];
     if (json['prices'] != null) {
-      prices = new List<Prices>();
+      prices = <Prices>[];
       json['prices'].forEach((v) {
         prices.add(new Prices.fromJson(v));
       });

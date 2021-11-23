@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:nuthoop/screens/Home/widget/displaymessage.dart';
 
 import 'constants.dart';
 import 'passwordResetDone.dart';
 import 'widget/textfield.dart';
 import 'package:provider/provider.dart';
-import 'package:nutloop_ecommerce/provider/auth_provider.dart';
+import 'package:nuthoop/provider/auth_provider.dart';
 
 // ignore: must_be_immutable
 class ForgotPasswordScreen extends StatelessWidget {
@@ -72,7 +73,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width /
                                         1.38,
                                     child: Text(
-                                      'Please enter the e-mail address associated with your Nutloop acount. We will send a link to this email address to reset your password',
+                                      'Please enter the e-mail address associated with your Nuthoop acount. We will send a link to this email address to reset your password',
                                       style: TextStyle(
                                         color: greyColor3,
                                       ),
@@ -103,19 +104,16 @@ class ForgotPasswordScreen extends StatelessWidget {
                                           .getPassWordResetError) {
                                         case PassWordResetError.invalidEmail:
                                           return ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  content: Text(
-                                                      'Invalid Email Entered')));
+                                              .showSnackBar(displayMessage(
+                                                  'Invalid Email Entered'));
                                         case PassWordResetError.emailNotfound:
                                           return ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  content:
-                                                      Text('Email not found')));
+                                              .showSnackBar(displayMessage(
+                                                  'Email not found'));
                                         case PassWordResetError.otherErrors:
                                           return ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  content: Text(
-                                                      'Unable to Send Password Reset Link')));
+                                              .showSnackBar(displayMessage(
+                                                  'Unable to Send Password Reset Link'));
                                       }
                                     } else {
                                       Navigator.of(context).pushAndRemoveUntil(

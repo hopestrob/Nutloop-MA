@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nutloop_ecommerce/model/chatUsersModel.dart';
+import 'package:nuthoop/model/chatUsersModel.dart';
 
 import 'conversationList.dart';
 

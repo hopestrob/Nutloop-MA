@@ -14,6 +14,8 @@ class ProductModel {
   String deliveryDays;
   String farm;
   String deliveryArea;
+  String deletedAt;
+  double rating;
   List<Prices> prices;
   Brand brand;
   Category category;
@@ -34,6 +36,8 @@ class ProductModel {
       this.deliveryDays,
       this.farm,
       this.deliveryArea,
+      this.deletedAt,
+      this.rating,
       this.prices,
       this.brand,
       this.category});
@@ -54,8 +58,10 @@ class ProductModel {
     deliveryDays = json['delivery_days'];
     farm = json['farm'];
     deliveryArea = json['delivery_area'];
+    deletedAt = json['deleted_at'];
+    rating = json['rating'].toDouble();
     if (json['prices'] != null) {
-      prices = new List<Prices>();
+      prices = <Prices>[];
       json['prices'].forEach((v) {
         prices.add(new Prices.fromJson(v));
       });
@@ -83,6 +89,8 @@ class ProductModel {
     data['delivery_days'] = this.deliveryDays;
     data['farm'] = this.farm;
     data['delivery_area'] = this.deliveryArea;
+    data['deleted_at'] = this.deletedAt;
+    data['rating'] = this.rating;
     if (this.prices != null) {
       data['prices'] = this.prices.map((v) => v.toJson()).toList();
     }
@@ -104,8 +112,8 @@ class Prices {
   String pricePromo;
   String secondaryRegularPrice;
   String secondaryPromoPrice;
-  Null createdAt;
-  Null updatedAt;
+  dynamic createdAt;
+  dynamic updatedAt;
   Unit unit;
 
   Prices(
@@ -223,6 +231,10 @@ class Category {
   String icon;
   String createdAt;
   String updatedAt;
+  String backgroundColor;
+  String textColor;
+  int returnDays;
+  String bannerImage;
 
   Category(
       {this.id,
@@ -230,7 +242,11 @@ class Category {
       this.description,
       this.icon,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.backgroundColor,
+      this.textColor,
+      this.returnDays,
+      this.bannerImage});
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -239,6 +255,10 @@ class Category {
     icon = json['icon'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    backgroundColor = json['background_color'];
+    textColor = json['text_color'];
+    returnDays = json['return_days'];
+    bannerImage = json['banner_image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -249,6 +269,10 @@ class Category {
     data['icon'] = this.icon;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['background_color'] = this.backgroundColor;
+    data['text_color'] = this.textColor;
+    data['return_days'] = this.returnDays;
+    data['banner_image'] = this.bannerImage;
     return data;
   }
 }

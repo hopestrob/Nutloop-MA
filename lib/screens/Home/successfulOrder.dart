@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:nutloop_ecommerce/provider/cart.dart';
-import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
-import 'package:nutloop_ecommerce/screens/Users/orders_details_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:nuthoop/provider/auth_provider.dart';
+import 'package:nuthoop/provider/cart.dart';
+import 'package:nuthoop/screens/Auth/constants.dart';
+// import 'package:nuthoop/screens/Home/bottomNav.dart';
+import 'package:nuthoop/screens/Users/orders_details_screen.dart';
+import 'package:provider/provider.dart';
 
-import 'homepage.dart';
+import 'mainPage.dart';
 
 class SuccessfulCheckOutPage extends StatefulWidget {
   final double amount;
@@ -68,7 +70,7 @@ class _SuccessfulCheckOutPageState extends State<SuccessfulCheckOutPage> {
             Align(
                 alignment: Alignment.center,
                 child: Text(
-                    'Transaction Number: ${this.widget.transactionRefNum}',
+                    'Transaction Number: ${this.widget.transactionRefNum == null ? "Wallet payment" : this.widget.transactionRefNum}',
                     style: TextStyle(fontSize: 15.0, color: greyColor2))),
             Container(
               height: 70.0,
@@ -77,16 +79,14 @@ class _SuccessfulCheckOutPageState extends State<SuccessfulCheckOutPage> {
                   color: kPrimaryColor.withOpacity(0.8),
                   borderRadius: BorderRadius.circular(10.0)),
               child: TextButton(
-                  onPressed: () async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    var authNames = prefs.getString('authName');
-                    print(authNames);
-                    Navigator.of(context).pushAndRemoveUntil(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                Homepage(authName: authNames)),
-                        (Route<dynamic> route) => false);
+                            builder: (context) => Consumer<Authentication>(
+                                builder: (_, authuser, child) =>
+                                    MainProductPage(
+                                        authName: "${authuser.getAuthUser}"))));
                   },
                   child: Text(
                     'Continue Shopping',
@@ -101,6 +101,8 @@ class _SuccessfulCheckOutPageState extends State<SuccessfulCheckOutPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => OrdersDetailsScreen()));
+                      // scakey.currentState.onItemTapped(3);
+                      // Navigator.of(context)..pop()..pop();
                     },
                     child: Text("Proceed to Track Order",
                         style: TextStyle(

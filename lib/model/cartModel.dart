@@ -1,17 +1,12 @@
 class CartModel {
-  List<Data> data;
+  Data data;
   String message;
   int statusCode;
 
   CartModel({this.data, this.message, this.statusCode});
 
   CartModel.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
-      data = new List<Data>();
-      json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message = json['message'];
     statusCode = json['status_code'];
   }
@@ -19,7 +14,7 @@ class CartModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data.toJson();
     }
     data['message'] = this.message;
     data['status_code'] = this.statusCode;
@@ -28,6 +23,32 @@ class CartModel {
 }
 
 class Data {
+  List<Items> items;
+  int total;
+
+  Data({this.items, this.total});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    if (json['items'] != null) {
+      items = <Items>[];
+      json['items'].forEach((v) {
+        items.add(new Items.fromJson(v));
+      });
+    }
+    total = json['total'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.items != null) {
+      data['items'] = this.items.map((v) => v.toJson()).toList();
+    }
+    data['total'] = this.total;
+    return data;
+  }
+}
+
+class Items {
   int id;
   int userId;
   int productId;
@@ -40,7 +61,7 @@ class Data {
   Unit unit;
   DefaultPrice defaultPrice;
 
-  Data(
+  Items(
       {this.id,
       this.userId,
       this.productId,
@@ -53,7 +74,7 @@ class Data {
       this.unit,
       this.defaultPrice});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Items.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     productId = json['product_id'];
@@ -109,6 +130,7 @@ class Product {
   String deliveryDays;
   String farm;
   String deliveryArea;
+  double rating;
   List<Prices> prices;
 
   Product(
@@ -127,6 +149,7 @@ class Product {
       this.deliveryDays,
       this.farm,
       this.deliveryArea,
+      this.rating,
       this.prices});
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -145,8 +168,9 @@ class Product {
     deliveryDays = json['delivery_days'];
     farm = json['farm'];
     deliveryArea = json['delivery_area'];
+    rating = json['rating'].toDouble();
     if (json['prices'] != null) {
-      prices = new List<Prices>();
+      prices = <Prices>[];
       json['prices'].forEach((v) {
         prices.add(new Prices.fromJson(v));
       });
@@ -170,6 +194,7 @@ class Product {
     data['delivery_days'] = this.deliveryDays;
     data['farm'] = this.farm;
     data['delivery_area'] = this.deliveryArea;
+    data['rating'] = this.rating;
     if (this.prices != null) {
       data['prices'] = this.prices.map((v) => v.toJson()).toList();
     }

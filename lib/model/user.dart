@@ -24,17 +24,11 @@ class UserModel {
 
 class Data {
   User user;
-  String accessToken;
-  String tokenType;
-  int expiresIn;
 
-  Data({this.user, this.accessToken, this.tokenType, this.expiresIn});
+  Data({this.user});
 
   Data.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    accessToken = json['access_token'];
-    tokenType = json['token_type'];
-    expiresIn = json['expires_in'];
   }
 
   Map<String, dynamic> toJson() {
@@ -42,9 +36,6 @@ class Data {
     if (this.user != null) {
       data['user'] = this.user.toJson();
     }
-    data['access_token'] = this.accessToken;
-    data['token_type'] = this.tokenType;
-    data['expires_in'] = this.expiresIn;
     return data;
   }
 }
@@ -54,12 +45,13 @@ class User {
   String name;
   String email;
   String phoneNumber;
-  Null emailVerifiedAt;
-  Null phoneNumberVerifiedAt;
-  Null referralCode;
-  Null socialProvider;
+  String emailVerifiedAt;
+  String phoneNumberVerifiedAt;
+  String psCusId;
+  String socialProvider;
   String createdAt;
   String updatedAt;
+  String referCode;
 
   User(
       {this.id,
@@ -68,10 +60,11 @@ class User {
       this.phoneNumber,
       this.emailVerifiedAt,
       this.phoneNumberVerifiedAt,
-      this.referralCode,
+      this.psCusId,
       this.socialProvider,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.referCode});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -80,10 +73,11 @@ class User {
     phoneNumber = json['phone_number'];
     emailVerifiedAt = json['email_verified_at'];
     phoneNumberVerifiedAt = json['phone_number_verified_at'];
-    referralCode = json['referral_code'];
+    psCusId = json['ps_cus_id'];
     socialProvider = json['social_provider'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    referCode = json['refer_code'];
   }
 
   Map<String, dynamic> toJson() {
@@ -94,10 +88,11 @@ class User {
     data['phone_number'] = this.phoneNumber;
     data['email_verified_at'] = this.emailVerifiedAt;
     data['phone_number_verified_at'] = this.phoneNumberVerifiedAt;
-    data['referral_code'] = this.referralCode;
+    data['ps_cus_id'] = this.psCusId;
     data['social_provider'] = this.socialProvider;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['refer_code'] = this.referCode;
     return data;
   }
 }

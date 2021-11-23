@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nutloop_ecommerce/provider/auth_provider.dart';
-import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
-import 'package:nutloop_ecommerce/screens/Auth/widget/textfield.dart';
+import 'package:nuthoop/provider/auth_provider.dart';
+import 'package:nuthoop/screens/Auth/constants.dart';
+import 'package:nuthoop/screens/Auth/widget/textfield.dart';
+import 'package:nuthoop/screens/Home/widget/displaymessage.dart';
 import 'package:provider/provider.dart';
 
 import '../Home/widget/header.dart';
@@ -36,17 +37,49 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               child: ListView(children: <Widget>[
                 CustomPasswordFields(
                   labeltext: "Current Password",
-                  obscureText: true,
                   controller: password,
+                  obscureText:
+                      Provider.of<Authentication>(context).passwordVisible,
+                  suffix: InkWell(
+                    child: Provider.of<Authentication>(context).passwordVisible
+                        ? Icon(Icons.visibility)
+                        : Icon(Icons.visibility_off),
+                    onTap: () {
+                      Provider.of<Authentication>(context, listen: false)
+                          .toggle();
+                    },
+                  ),
                 ),
                 CustomPasswordFields(
-                    labeltext: "New Password",
-                    obscureText: true,
-                    controller: npassword),
+                  labeltext: "New Password",
+                  controller: npassword,
+                  obscureText:
+                      Provider.of<Authentication>(context).passwordVisible,
+                  suffix: InkWell(
+                    child: Provider.of<Authentication>(context).passwordVisible
+                        ? Icon(Icons.visibility)
+                        : Icon(Icons.visibility_off),
+                    onTap: () {
+                      Provider.of<Authentication>(context, listen: false)
+                          .toggle();
+                    },
+                  ),
+                ),
                 CustomPasswordFields(
-                    labeltext: "Confirm New Password",
-                    obscureText: true,
-                    controller: cnpassword),
+                  labeltext: "Confirm new Password",
+                  controller: cnpassword,
+                  obscureText:
+                      Provider.of<Authentication>(context).passwordVisible,
+                  suffix: InkWell(
+                    child: Provider.of<Authentication>(context).passwordVisible
+                        ? Icon(Icons.visibility)
+                        : Icon(Icons.visibility_off),
+                    onTap: () {
+                      Provider.of<Authentication>(context, listen: false)
+                          .toggle();
+                    },
+                  ),
+                ),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -70,30 +103,28 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               context.read<Authentication>().getPassWordError) {
                             case PassWordError.invalidPassword:
                               return ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text('Invalid Password Entered')));
+                                  displayMessage('Invalid Password Entered'));
                             case PassWordError.otherErrors:
                               return ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text(
-                                          'Unable to Change Your Password')));
+                                  displayMessage(
+                                      'Unable to Change Your Password'));
                           }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: kBrandColor,
                             content: Text('Password Changed Successfully'),
                             duration: Duration(seconds: 3),
                           ));
                           Navigator.pop(context);
                         }
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                'New Password does not match Confirm password')));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            displayMessage(
+                                'New Password does not match Confirm password'));
                       }
                     },
                     child: Text(
-                      'Save Password',
+                      'Change Password',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

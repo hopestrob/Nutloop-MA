@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "988636805920-taq6t03p6e2ekr2sss8i077ofeqr8pej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nutloop_ecommerce",
+            "certificate_hash": "3a54e5aade4b6df76a265200e3b21d52ed871dd4"
+          }
+        },
+        {
           "client_id": "988636805920-u3obnkrej4e3bhghu2c9mi4eej9a996q.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -12,7 +12,7 @@ class ProductModel {
     description = json['description'];
     color = json['color'];
     if (json['products'] != null) {
-      products = new List<Products>();
+      products = <Products>[];
       json['products'].forEach((v) {
         products.add(new Products.fromJson(v));
       });

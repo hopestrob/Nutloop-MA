@@ -1,19 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nutloop_ecommerce/boarding/Welcome/welcome_screen.dart';
-import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
-import 'package:nutloop_ecommerce/screens/Users/profile.dart';
-import 'mainPage.dart';
+import 'package:nuthoop/boarding/Welcome/welcome_screen.dart';
+import 'package:nuthoop/screens/Auth/constants.dart';
+// import 'package:nuthoop/screens/Home/bottomNav.dart';
+import 'package:nuthoop/screens/Home/tab_navigator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
-import 'package:nutloop_ecommerce/provider/auth_provider.dart';
-// import 'package:nutloop_ecommerce/model/user.dart';
-// import 'package:flutter/cupertino.dart'
-
-import 'allProducts.dart';
-import 'cart_screen.dart';
 
 // ignore: must_be_immutable
 class Homepage extends StatefulWidget {
@@ -25,48 +17,16 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  //  Future<UserModel>  _future;
-
-  PageController pageController;
-  int pageIndex = 0;
-
   @override
   void initState() {
     super.initState();
-    Provider.of<Authentication>(context, listen: false).getProfileDetail();
     read();
-    pageController = PageController();
-    // WidgetsBinding.instance.addPostFrameCallback((_){
-    //       if(Provider.of<Authentication>(context, listen:false).getSingleUserDetail.data?.user?.id == null){
-    //         Navigator.of(context).pushReplacement(MaterialPageRoute(
-    //     builder: (context) =>
-    //    WelcomeScreen(),
-    //   ));
-    //  }
-    // });
   }
 
   @override
   void dispose() {
-    pageController.dispose();
     read();
     super.dispose();
-  }
-
-  onPageChanged(int pageIndex) {
-    if (mounted) {
-      setState(() {
-        pageIndex = pageIndex;
-      });
-    }
-  }
-
-  onTap(int index) {
-    // print('this is widget index page $pageIndex');
-    pageController.animateToPage(index,
-        duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
   }
 
   read() async {
@@ -80,58 +40,73 @@ class _HomepageState extends State<Homepage> {
     }
   }
 
+  String _currentPage = "MainProductPage";
+  List<String> pageKeys = [
+    "MainProductPage",
+    "AllProducts",
+    "CartScreen",
+    "ProfileScreen"
+  ];
+  Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
+    "MainProductPage": GlobalKey<NavigatorState>(),
+    "AllProducts": GlobalKey<NavigatorState>(),
+    "CartScreen": GlobalKey<NavigatorState>(),
+    "ProfileScreen": GlobalKey<NavigatorState>(),
+  };
+  int _selectedIndex = 0;
+
+  void _selectTab(String tabItem, int index) {
+    if (tabItem == _currentPage) {
+      _navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
+    } else {
+      setState(() {
+        _currentPage = pageKeys[index];
+        _selectedIndex = index;
+      });
+    }
+  }
+
+  Widget _buildOffstageNavigator(String tabItem) {
+    return Offstage(
+      offstage: _currentPage != tabItem,
+      child: TabNavigator(
+        navigatorKey: _navigatorKeys[tabItem],
+        tabItem: tabItem,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    //  print(Provider.of<Authentication>(context, listen:false).getSingleUserDetail.data?.user?.id);
-    return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      // appBar: new
-      body:
-          // FutureBuilder(
-          //            future: _future,
-          //                builder: (context, snapshot) {
-          //                  switch (snapshot.connectionState) {
-          //             case ConnectionState.waiting:
-          //               return Center(
-          //                 child: CupertinoActivityIndicator(
-          //                       radius: 12,
-          //                     ),
-          //               );
-          //               //  case ConnectionState.done:
-          //               default:
-          //               if (snapshot.hasData==null || snapshot.data == null)
-          //                 return WelcomeScreen();
-          //               else if(snapshot.hasError )
-          //                   return WelcomeScreen();
-          //               else
-          //             return
-          SafeArea(
-        bottom: false,
-        right: false,
-        left: false,
-        child: PageView(
-          children: <Widget>[
-            MainProductPage(authName: this.widget.authName),
-            AllProducts(),
-            CartScreen(),
-            ProfileScreen()
+    return WillPopScope(
+      onWillPop: () async {
+        final isFirstRouteInCurrentTab =
+            !await _navigatorKeys[_currentPage].currentState.maybePop();
+        if (isFirstRouteInCurrentTab) {
+          if (_currentPage != "MainProductPage") {
+            _selectTab("MainProductPage", 1);
+
+            return false;
+          }
+        }
+        // let system handle back button if we're on the first route
+        return isFirstRouteInCurrentTab;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            _buildOffstageNavigator("MainProductPage"),
+            _buildOffstageNavigator("AllProducts"),
+            _buildOffstageNavigator("CartScreen"),
+            _buildOffstageNavigator("ProfileScreen"),
           ],
-          controller: pageController,
-          onPageChanged: (index) {
-            setState(() => pageIndex = index);
-          },
-          // physics: NeverScrollableScrollPhysics(),
         ),
-      ),
-      // }}),
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: pageIndex,
-          // currentIndex: widget.selectedPage == null ? 0 : widget.selectedPage,
-          onTap: onTap,
-          selectedItemColor: kBrandColor,
-          unselectedItemColor: greyColor2,
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: Colors.blueAccent,
+          onTap: (int index) {
+            _selectTab(pageKeys[index], index);
+          },
+          currentIndex: _selectedIndex,
           items: [
             BottomNavigationBarItem(
                 icon: Icon(
@@ -175,7 +150,10 @@ class _HomepageState extends State<Homepage> {
                   'Profile',
                   style: TextStyle(color: greyColor2),
                 )),
-          ]),
+          ],
+          type: BottomNavigationBarType.fixed,
+        ),
+      ),
     );
   }
 }

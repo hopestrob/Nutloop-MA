@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+// import 'package:nuthoop/screens/Home/widget/measurementBottom.dart';
 import '../../../helper/config_size.dart';
 import '../../Auth/constants.dart';
 import 'package:provider/provider.dart';
 import '../../Home/widget/search.dart';
-import 'package:nutloop_ecommerce/provider/products_provider.dart';
-import '../../../model/unitModel.dart';
+import 'package:nuthoop/provider/products_provider.dart';
 
 // ignore: must_be_immutable
 class Header extends StatelessWidget {
   final String title;
   Header({this.title});
 
-    String selectedUnit;
+  String selectedUnit;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -32,8 +32,6 @@ class Header extends StatelessWidget {
                 //30
                 top: 3.76 * SizeConfig.heightMultiplier),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
                     onTap: () {
@@ -61,39 +59,33 @@ class Header extends StatelessWidget {
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold)),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 0.0),
-                  child: Row(
-                    children: [
-                      DropdownButtonHideUnderline(
-                          child: new DropdownButton<String>(
-                              hint: Provider.of<ProductsProvider>(context)
-                                          .getMeasurement ==
-                                      null
-                                  ? Text('Measurement')
-                                  : Text(Provider.of<ProductsProvider>(context)
-                                      .getMeasurement
-                                      .toString()),
-                              value: selectedUnit,
-                              isDense: true,
-                              onChanged: (value) {
-                                Provider.of<ProductsProvider>(context,
-                                        listen: false)
-                                    .measurementState(value);
-                              },
-                              items: Provider.of<ProductsProvider>(context)
-                                  .getUnits
-                                  .map((UnitModel map) {
-                                return new DropdownMenuItem<String>(
-                                  value: map.name,
-                                  child: new Text(map.name,
-                                      style:
-                                          new TextStyle(color: Colors.black)),
-                                );
-                              }).toList())),
-                    ],
-                  ),
-                ),
+                // InkWell(
+                //   onTap: () {
+                //     Provider.of<ProductsProvider>(context, listen: false)
+                //         .clearMeasurement();
+                //     measurementBottomSheet(context, selectedUnit);
+                //   },
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(left: 10.0),
+                //     child:
+                //         Provider.of<ProductsProvider>(context).getMeasurement ==
+                //                 null
+                //             ? Row(
+                //                 children: [
+                //                   Text('Measurement'),
+                //                   Icon(Icons.keyboard_arrow_down_sharp)
+                //                 ],
+                //               )
+                //             : Row(
+                //                 children: [
+                //                   Text(Provider.of<ProductsProvider>(context)
+                //                       .getMeasurement
+                //                       .toString()),
+                //                   Icon(Icons.keyboard_arrow_down_sharp)
+                //                 ],
+                //               ),
+                //   ),
+                // )
               ],
             ),
           ),

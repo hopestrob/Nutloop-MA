@@ -3,8 +3,8 @@ class FaqModel {
   String question;
   String answer;
   int defaultOpen;
-  Null createdAt;
-  Null updatedAt;
+  String createdAt;
+  String updatedAt;
 
   FaqModel(
       {this.id,

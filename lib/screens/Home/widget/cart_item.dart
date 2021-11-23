@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
+import 'package:nuthoop/screens/Auth/constants.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/cart.dart';
@@ -185,7 +185,7 @@ class _CartItemState extends State<CartItem> {
                                 onTap: () {
                                   Provider.of<CartProvider>(context,
                                           listen: false)
-                                      .deleteCart(widget.id);
+                                      .deleteCart(widget.id, context);
                                 },
                                 child: Icon(FontAwesomeIcons.trash,
                                     color: Colors.white)))

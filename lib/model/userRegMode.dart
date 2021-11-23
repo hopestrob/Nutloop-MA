@@ -47,28 +47,31 @@ class User {
   String name;
   String email;
   String phoneNumber;
-  String referralCode;
+  String referCode;
   String updatedAt;
   String createdAt;
   int id;
+  String psCusId;
 
   User(
       {this.name,
       this.email,
       this.phoneNumber,
-      this.referralCode,
+      this.referCode,
       this.updatedAt,
       this.createdAt,
-      this.id});
+      this.id,
+      this.psCusId});
 
   User.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     email = json['email'];
     phoneNumber = json['phone_number'];
-    referralCode = json['referral_code'];
+    referCode = json['refer_code'];
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
     id = json['id'];
+    psCusId = json['ps_cus_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -76,10 +79,11 @@ class User {
     data['name'] = this.name;
     data['email'] = this.email;
     data['phone_number'] = this.phoneNumber;
-    data['referral_code'] = this.referralCode;
+    data['refer_code'] = this.referCode;
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;
     data['id'] = this.id;
+    data['ps_cus_id'] = this.psCusId;
     return data;
   }
 }

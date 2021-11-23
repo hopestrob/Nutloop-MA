@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:nutloop_ecommerce/boarding/Welcome/welcome_screen.dart';
-import 'package:nutloop_ecommerce/provider/auth_provider.dart';
-// import 'package:nutloop_ecommerce/provider/cart.dart';
-import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
-import 'package:nutloop_ecommerce/screens/Users/editprofile.dart';
-import 'package:nutloop_ecommerce/screens/Users/rewardcard.dart';
-import 'package:nutloop_ecommerce/screens/Users/wallet.dart';
+import 'package:nuthoop/boarding/Welcome/welcome_screen.dart';
+import 'package:nuthoop/provider/auth_provider.dart';
+import 'package:nuthoop/provider/cart.dart';
+// import 'package:nuthoop/provider/cart.dart';
+import 'package:nuthoop/screens/Auth/constants.dart';
+import 'package:nuthoop/screens/Users/editprofile.dart';
+// import 'package:nuthoop/screens/Users/rewardcard.dart';
+import 'package:nuthoop/screens/Users/wallet.dart';
 import 'package:provider/provider.dart';
 import 'changepassword.dart';
 import 'customer_service.dart';
 import 'faqScreen.dart';
-import 'notifications.dart';
 // import 'order_screen.dart';
+import 'help.dart';
+import 'orderedpageSub.dart';
 import 'orders_details_screen.dart';
 // import 'payment_method.dart';
 import 'referralPage.dart';
@@ -21,18 +23,17 @@ import 'saved_page.dart';
 // import 'widget/actionRow.dart';
 
 class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Provider.of<Authentication>(context, listen: false).setAuthUser();
-    //  Provider.of<Cart>(context, listen: false).getOrdered();
-    //   final ordersDetails =  Provider.of<Cart>(context, listen: false).getOrderedItem;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Column(children: [
             Column(
               children: [
-                SizedBox(height: 30),
+                SizedBox(height: 20),
                 Container(
                   margin: EdgeInsets.all(8.0),
                   child: Column(
@@ -53,13 +54,13 @@ class ProfileScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Consumer<Authentication>(
-                          builder: (_, authuser, child) =>
-                              Text("${authuser.getAuthUser}",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: greyColor3,
-                                  )),
+                          builder: (_, authuser, child) => Text(
+                              "${authuser.getSingleUserDetail?.data?.user?.name == null ? authuser.getAuthUser : authuser.getSingleUserDetail?.data?.user?.name}",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: greyColor3,
+                              )),
                         ),
                       ),
                     ],
@@ -80,8 +81,13 @@ class ProfileScreen extends StatelessWidget {
                             builder: (context) => OrdersDetailsScreen()));
                     //  ordersDetails.length == 0 ? Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderScreen())) :Navigator.push(context, MaterialPageRoute(builder: (context)=>OrdersDetailsScreen()));
                   },
-                  child:
-                      makeListTile(FontAwesomeIcons.shoppingBag, "My Orders"),
+                  child: makeListTile(
+                      SvgPicture.asset(
+                        "asset/images/orders.svg",
+                        height: 20,
+                        color: kBrandColor,
+                      ),
+                      "My Orders"),
                 ),
                 line(context),
                 InkWell(
@@ -89,10 +95,33 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
+                            builder: (context) => OrdersDetailsSubScreen()));
+                    //  ordersDetails.length == 0 ? Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderScreen())) :Navigator.push(context, MaterialPageRoute(builder: (context)=>OrdersDetailsScreen()));
+                  },
+                  child: makeListTile(
+                      SvgPicture.asset(
+                        "asset/images/orders.svg",
+                        height: 20,
+                        color: kBrandColor,
+                      ),
+                      "My Orders Sub"),
+                ),
+                line(context),
+
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
                             builder: (context) => EditProfileScreen()));
                   },
-                  child:
-                      makeListTile(FontAwesomeIcons.userEdit, "Edit Profile"),
+                  child: makeListTile(
+                      SvgPicture.asset(
+                        "asset/images/Profile.svg",
+                        height: 20,
+                        color: kBrandColor,
+                      ),
+                      "Edit Profile"),
                 ),
                 // line(context),
                 // InkWell(
@@ -112,7 +141,13 @@ class ProfileScreen extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => SavedProductScreen()));
                   },
-                  child: makeListTile(FontAwesomeIcons.save, "Saved"),
+                  child: makeListTile(
+                      SvgPicture.asset(
+                        "asset/images/saved.svg",
+                        height: 20,
+                        color: kBrandColor,
+                      ),
+                      "Saved"),
                 ),
                 line(context),
                 InkWell(
@@ -123,7 +158,12 @@ class ProfileScreen extends StatelessWidget {
                               builder: (context) => ReferalScreen()));
                     },
                     child: makeListTile(
-                        FontAwesomeIcons.userAstronaut, "Refer a Friend")),
+                        SvgPicture.asset(
+                          "asset/images/refer.svg",
+                          height: 20,
+                          color: kBrandColor,
+                        ),
+                        "Refer a Friend")),
                 line(context),
                 InkWell(
                   onTap: () {
@@ -132,29 +172,47 @@ class ProfileScreen extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => WalletScreen()));
                   },
-                  child: makeListTile(FontAwesomeIcons.moneyBill, "Wallet"),
+                  child: makeListTile(
+                      SvgPicture.asset(
+                        "asset/images/wallet.svg",
+                        height: 20,
+                        color: kBrandColor,
+                      ),
+                      "Wallet"),
                 ),
                 line(context),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RewardCardpage()));
-                  },
-                  child: makeListTile(FontAwesomeIcons.idCard, "Reward Cards"),
-                ),
-                line(context),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NotificationScreen()));
-                  },
-                  child: makeListTile(Icons.notifications, "Notifications"),
-                ),
-                line(context),
+                // InkWell(
+                //   onTap: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => RewardCardpage()));
+                //   },
+                //   child: makeListTile(
+                //       SvgPicture.asset(
+                //         "asset/images/rewardcard.svg",
+                //         height: 20,
+                //         color: kBrandColor,
+                //       ),
+                //       "Reward Cards"),
+                // ),
+                // line(context),
+                // InkWell(
+                //   onTap: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => NotificationScreen()));
+                //   },
+                //   child: makeListTile(
+                //       SvgPicture.asset(
+                //         "asset/images/notification.svg",
+                //         height: 20,
+                //         color: kBrandColor,
+                //       ),
+                //       "Notifications"),
+                // ),
+                // line(context),
                 InkWell(
                     onTap: () {
                       Navigator.push(
@@ -162,7 +220,13 @@ class ProfileScreen extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => ChangePasswordScreen()));
                     },
-                    child: makeListTile(Icons.lock, "Change Password")),
+                    child: makeListTile(
+                        SvgPicture.asset(
+                          "asset/images/changepw.svg",
+                          height: 20,
+                          color: kBrandColor,
+                        ),
+                        "Change Password")),
                 line(context),
                 InkWell(
                   onTap: () {
@@ -171,7 +235,13 @@ class ProfileScreen extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => CustomerService()));
                   },
-                  child: makeListTile(Icons.headset, "Customer Service"),
+                  child: makeListTile(
+                      SvgPicture.asset(
+                        "asset/images/customer.svg",
+                        height: 20,
+                        color: kBrandColor,
+                      ),
+                      "Customer Service"),
                 ),
                 line(context),
                 InkWell(
@@ -179,22 +249,72 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => FaqScreen()));
                   },
-                  child: makeListTile(Icons.question_answer, "FAQ"),
+                  child: makeListTile(
+                      SvgPicture.asset(
+                        "asset/images/faq.svg",
+                        height: 20,
+                        color: kBrandColor,
+                      ),
+                      "FAQs"),
                 ),
                 line(context),
                 InkWell(
                   onTap: () {
-                    Provider.of<Authentication>(context, listen: false)
-                        .logout(context);
-                    final GoogleSignIn googleSignIn = GoogleSignIn();
-                    googleSignIn.signOut();
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                            builder: (context) => WelcomeScreen()),
-                        (Route<dynamic> route) => false);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HelpScreen()));
                   },
-                  child: makeListTile(Icons.lock_open, "Logout"),
-                )
+                  child: makeListTile(
+                      SvgPicture.asset(
+                        "asset/images/faq.svg",
+                        height: 20,
+                        color: kBrandColor,
+                      ),
+                      "Help"),
+                ),
+                line(context),
+                InkWell(
+                    onTap: () {
+                      final GoogleSignIn googleSignIn = GoogleSignIn();
+                      googleSignIn.signOut();
+                      Provider.of<Authentication>(context, listen: false)
+                          .logout()
+                          .then((value) => {
+                                Provider.of<CartProvider>(context,
+                                        listen: false)
+                                    .logout2()
+                                    .then((value) => {
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WelcomeScreen()),
+                                                  (Route<dynamic> route) =>
+                                                      false)
+                                        })
+                              });
+                    },
+                    child: ListTile(
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                      leading: Container(
+                        padding: EdgeInsets.only(right: 12.0),
+                        // decoration: new BoxDecoration(
+                        //     border: new Border(
+                        //         right: new BorderSide(
+                        //             width: 1.0, color: Colors.black87))),
+                        child: SvgPicture.asset(
+                          "asset/images/logout.svg",
+                          height: 20,
+                          color: kBrandColor,
+                        ),
+                      ),
+                      title: Text(
+                        'Logout',
+                        style: TextStyle(
+                            color: Colors.black54, fontWeight: FontWeight.bold),
+                      ),
+                    ))
               ]),
             ))
           ]),
@@ -210,7 +330,7 @@ line(BuildContext context) => Padding(
         color: greyColor4,
       ),
     );
-makeListTile(IconData icon, String title) => ListTile(
+makeListTile(Widget icon, String title) => ListTile(
     contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
     leading: Container(
       padding: EdgeInsets.only(right: 12.0),
@@ -218,7 +338,7 @@ makeListTile(IconData icon, String title) => ListTile(
       //     border: new Border(
       //         right: new BorderSide(
       //             width: 1.0, color: Colors.black87))),
-      child: Icon(icon, color: kBrandColor),
+      child: icon,
     ),
     title: Text(
       title,

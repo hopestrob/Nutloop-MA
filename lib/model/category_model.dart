@@ -5,6 +5,8 @@ class CategoryModel {
   String icon;
   String createdAt;
   String updatedAt;
+  String backgroundColor;
+  String textColor;
 
   CategoryModel(
       {this.id,
@@ -12,7 +14,9 @@ class CategoryModel {
       this.description,
       this.icon,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.backgroundColor,
+      this.textColor});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -21,6 +25,8 @@ class CategoryModel {
     icon = json['icon'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    backgroundColor = json['background_color'];
+    textColor = json['text_color'];
   }
 
   Map<String, dynamic> toJson() {
@@ -31,6 +37,8 @@ class CategoryModel {
     data['icon'] = this.icon;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['background_color'] = this.backgroundColor;
+    data['text_color'] = this.textColor;
     return data;
   }
 }

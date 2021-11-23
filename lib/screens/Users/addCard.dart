@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
-import 'package:nutloop_ecommerce/screens/Auth/widget/textfield.dart';
+import 'package:nuthoop/screens/Auth/constants.dart';
+import 'package:nuthoop/screens/Auth/widget/textfield.dart';
 
 import '../Home/widget/header.dart';
 

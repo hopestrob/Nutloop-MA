@@ -1,34 +1,57 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_svg/svg.dart';
-import 'package:nutloop_ecommerce/helper/config_size.dart';
-import 'package:nutloop_ecommerce/model/unitModel.dart';
-import 'package:nutloop_ecommerce/provider/products_provider.dart';
-import 'package:nutloop_ecommerce/screens/Auth/constants.dart';
-import 'package:nutloop_ecommerce/screens/Home/widget/listProduct.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:nuthoop/helper/config_size.dart';
+import 'package:nuthoop/provider/products_provider.dart';
+import 'package:nuthoop/screens/Auth/constants.dart';
+import 'package:nuthoop/screens/Home/widget/checkOutAddCard.dart';
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'AllBestDeal.dart';
-import 'allTopselling.dart';
-import 'checkOutAddCard.dart';
-import 'widget/featuredProduct.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'pages/AllBestDeal.dart';
+import 'pages/allTopselling.dart';
+import 'pages/featuredProduct.dart';
+import 'pages/listProduct.dart';
+import 'pages/recentlyViewed.dart';
+// import 'widget/measurementBottom.dart';
 import 'widget/partner.dart';
 import 'widget/search.dart';
 import 'widget/shippingads.dart';
 
 // ignore: must_be_immutable
 class MainProductPage extends StatefulWidget {
+  const MainProductPage({Key key, this.authName}) : super(key: key);
   final String authName;
-  MainProductPage({this.authName});
 
   @override
   _MainProductPageState createState() => _MainProductPageState();
 }
 
-class _MainProductPageState extends State<MainProductPage> {
+class _MainProductPageState extends State<MainProductPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   String firstname;
+  // ignore: unused_field
+  Future<void> _launched;
+
+  Future<void> _launchInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
+    const String toLaunch = 'https://www.nuthoop.com/join-us/osp/';
+    const String toLaunch2 = 'https://www.nuthoop.com/join-us/supplier/';
     var names = widget.authName.split(' ');
     setState(() {
       firstname = names[0];
@@ -71,14 +94,14 @@ class _MainProductPageState extends State<MainProductPage> {
                         height: size.height * 0.200,
                         child: CarouselSlider(
                           options: CarouselOptions(
-                              height: 400,
+                              // height: 400,
+                              aspectRatio: 8 / 9,
+                              viewportFraction: 1.2,
                               enableInfiniteScroll: true,
                               autoPlay: true),
                           items: [
                             'asset/slider.png',
-                            'asset/slider.png',
-                            'asset/slider.png',
-                            'asset/slider.png',
+                            'asset/images/banner.jpeg',
                           ].map(
                             (i) {
                               return Container(
@@ -89,7 +112,7 @@ class _MainProductPageState extends State<MainProductPage> {
                                   child: Image.asset(i,
                                       fit: BoxFit.fill,
                                       height: 400,
-                                      width: 1000),
+                                      width: 100),
                                   onTap: () {
                                     // print('hello');
                                   },
@@ -127,15 +150,34 @@ class _MainProductPageState extends State<MainProductPage> {
                     // SizedBox(height: 20.0),
                     line(context),
                     Container(
-                      // width: size.
-                      // * SizeConfig.heightMultiplier
-                      height: 20.5 * SizeConfig.heightMultiplier,
+                      height: 12.5 * SizeConfig.heightMultiplier,
                       //  150,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
-                          PartnerBar(color: productColor2),
-                          PartnerBar(color: Colors.red),
+                          InkWell(
+                            onTap: () => setState(() {
+                              _launched = _launchInBrowser(toLaunch);
+                            }),
+                            child: PartnerBar(
+                              color: productColor2,
+                              text:
+                                  'Register now to become a nuthoop Ordering Sales Partner and enjoy high commission, bonuses, support, training etc.',
+                              title: 'Ordering Sales Partner',
+                            ),
+                          ),
+
+                          InkWell(
+                            onTap: () => setState(() {
+                              _launched = _launchInBrowser(toLaunch2);
+                            }),
+                            child: PartnerBar(
+                              color: Colors.red,
+                              text:
+                                  'Register now to enjoy regular offtake, access to loan, training and sustainable partnership.',
+                              title: 'Become a Supplier',
+                            ),
+                          ),
                           // PartnerBar(color: productColor),
                           // PartnerBar(color: productColor2),
                         ],
@@ -170,14 +212,43 @@ class _MainProductPageState extends State<MainProductPage> {
                     ListProduct(),
                     line(context),
                     Container(
-                      height: 20.5 * SizeConfig.heightMultiplier,
+                      height: 15.8 * SizeConfig.heightMultiplier,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
-                          ShippingAdBar(),
-                          ShippingAdBar(),
-                          // ShippingAdBar(),
-                          // ShippingAdBar(),
+                          ShippingAdBar(
+                            widget: SvgPicture.asset(
+                              "asset/icons/free-delivery.svg",
+                              height: 6.88 * SizeConfig.heightMultiplier,
+                              fit: BoxFit.fill,
+                              alignment: Alignment.center,
+                              // 260
+                            ),
+                            title: 'FREE SHIPPING',
+                            content: 'For all orders over ₦30,000.00',
+                          ),
+                          ShippingAdBar(
+                            widget: SvgPicture.asset(
+                              "asset/creditcard.svg",
+                              height: 6.88 * SizeConfig.heightMultiplier,
+                              fit: BoxFit.cover,
+                              alignment: Alignment.center,
+                              // 260
+                            ),
+                            title: 'SECURE PAYMENT',
+                            content: '100% secure online payment',
+                          ),
+                          ShippingAdBar(
+                            widget: SvgPicture.asset(
+                              "asset/icons/support.svg",
+                              height: 6.88 * SizeConfig.heightMultiplier,
+                              fit: BoxFit.fill,
+                              alignment: Alignment.center,
+                              // 260
+                            ),
+                            title: 'ONLINE SUPPORT',
+                            content: '24/7 Dedicated customers support',
+                          ),
                         ],
                       ),
                     ),
@@ -192,21 +263,16 @@ class _MainProductPageState extends State<MainProductPage> {
                             'Recently Viewed Items',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            'View All Products',
-                            style: TextStyle(color: kBrandColor),
-                          )
+                          // Text(
+                          //   'View All Products',
+                          //   style: TextStyle(color: kBrandColor),
+                          // )
                         ],
                       ),
                     ),
-                    // ListProduct(),
-                    // SvgPicture.asset(
-                    //   "asset/icons/chat.svg",
-                    //   height: size.width * 0.330,
-                    //   color: kBrandColor,
-                    // ),
-                    // line(context),
-                    // SizedBox(height: size.height * 0.010),
+                    RecentlyViewed(),
+                    line(context),
+                    SizedBox(height: size.height * 0.010),
                   ]),
                 ),
               ],
@@ -258,41 +324,34 @@ class _MainProductPageState extends State<MainProductPage> {
             ],
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 0.0),
-            child: Row(
-              children: [
-                DropdownButtonHideUnderline(
-                    child: new DropdownButton<String>(
-                        hint: Provider.of<ProductsProvider>(context)
-                                    .getMeasurement ==
-                                null
-                            ? Text('Measurement')
-                            : Text(Provider.of<ProductsProvider>(context)
-                                .getMeasurement
-                                .toString()),
-                        value: selectedUnit,
-                        isDense: true,
-                        onChanged: (value) {
-                          Provider.of<ProductsProvider>(context, listen: false)
-                              .measurementState(value);
-                          // print('this os the value $value');
-                        },
-                        items: Provider.of<ProductsProvider>(context)
-                            .getUnits
-                            .map((UnitModel map) {
-                          return new DropdownMenuItem<String>(
-                            value: map.name,
-                            child: new Text(map.name,
-                                style: new TextStyle(
-                                    color: Colors.black, fontSize: 15.0)),
-                          );
-                        }).toList())),
-              ],
-            ),
-          ),
-        )
+        // Expanded(
+        //   child: InkWell(
+        //     onTap: () {
+        //       Provider.of<ProductsProvider>(context, listen: false)
+        //           .clearMeasurement();
+        //       measurementBottomSheet(context, selectedUnit);
+        //     },
+        //     child: Padding(
+        //       padding: const EdgeInsets.only(left: 10.0),
+        //       child:
+        //           Provider.of<ProductsProvider>(context).getMeasurement == null
+        //               ? Row(
+        //                   children: [
+        //                     Text('Measurement'),
+        //                     Icon(Icons.keyboard_arrow_down_sharp)
+        //                   ],
+        //                 )
+        //               : Row(
+        //                   children: [
+        //                     Text(Provider.of<ProductsProvider>(context)
+        //                         .getMeasurement
+        //                         .toString()),
+        //                     Icon(Icons.keyboard_arrow_down_sharp)
+        //                   ],
+        //                 ),
+        //     ),
+        //   ),
+        // )
         //  Consumer<Cart>(
         //       builder: (_, cartObject, child) => Badge(
         //         child: child,

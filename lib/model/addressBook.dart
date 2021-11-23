@@ -1,60 +1,68 @@
 class AddressBook {
+  int id;
+  int userId;
   String firstName;
   String lastName;
   String phoneNumber;
+  String mobileNumber;
   String houseNo;
   String street;
   String area;
   String city;
   String deliveryInstructions;
-  int userId;
-  String updatedAt;
+  String deletedAt;
   String createdAt;
-  int id;
+  String updatedAt;
 
   AddressBook(
-      {this.firstName,
+      {this.id,
+      this.userId,
+      this.firstName,
       this.lastName,
       this.phoneNumber,
+      this.mobileNumber,
       this.houseNo,
       this.street,
       this.area,
       this.city,
       this.deliveryInstructions,
-      this.userId,
-      this.updatedAt,
+      this.deletedAt,
       this.createdAt,
-      this.id});
+      this.updatedAt});
 
   AddressBook.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
     phoneNumber = json['phone_number'];
+    mobileNumber = json['mobile_number'];
     houseNo = json['house_no'];
     street = json['street'];
     area = json['area'];
     city = json['city'];
     deliveryInstructions = json['delivery_instructions'];
-    userId = json['user_id'];
-    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
     createdAt = json['created_at'];
-    id = json['id'];
+    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['user_id'] = this.userId;
     data['first_name'] = this.firstName;
     data['last_name'] = this.lastName;
     data['phone_number'] = this.phoneNumber;
+    data['mobile_number'] = this.mobileNumber;
     data['house_no'] = this.houseNo;
     data['street'] = this.street;
     data['area'] = this.area;
     data['city'] = this.city;
     data['delivery_instructions'] = this.deliveryInstructions;
-    data['user_id'] = this.userId;
-    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
     data['created_at'] = this.createdAt;
-    data['id'] = this.id;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }
